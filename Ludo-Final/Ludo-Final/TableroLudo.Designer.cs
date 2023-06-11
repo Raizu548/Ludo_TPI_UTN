@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TableroLudo));
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -108,11 +109,6 @@
             button75 = new Button();
             button76 = new Button();
             l_pos_rojo1 = new Label();
-            panel1 = new Panel();
-            button77 = new Button();
-            label1 = new Label();
-            pictureBoxDado = new PictureBox();
-            b_lanzar_dado = new Button();
             l_pos_rojo2 = new Label();
             l_pos_rojo3 = new Label();
             l_pos_rojo4 = new Label();
@@ -128,6 +124,12 @@
             l_pos_verde2 = new Label();
             l_pos_verde3 = new Label();
             l_pos_verde4 = new Label();
+            panel1 = new Panel();
+            button77 = new Button();
+            label1 = new Label();
+            pictureBoxDado = new PictureBox();
+            b_lanzar_dado = new Button();
+            timerDado = new System.Windows.Forms.Timer(components);
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             panel1.SuspendLayout();
@@ -1239,56 +1241,6 @@
             l_pos_rojo1.Text = "label2";
             l_pos_rojo1.Visible = false;
             // 
-            // panel1
-            // 
-            panel1.Controls.Add(button77);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(pictureBoxDado);
-            panel1.Controls.Add(b_lanzar_dado);
-            panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(694, 3);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(248, 688);
-            panel1.TabIndex = 1;
-            // 
-            // button77
-            // 
-            button77.BackColor = Color.Red;
-            button77.Enabled = false;
-            button77.FlatStyle = FlatStyle.Flat;
-            button77.Location = new Point(111, 104);
-            button77.Name = "button77";
-            button77.Size = new Size(107, 32);
-            button77.TabIndex = 3;
-            button77.UseVisualStyleBackColor = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(18, 100);
-            label1.Name = "label1";
-            label1.Size = new Size(91, 37);
-            label1.TabIndex = 2;
-            label1.Text = "Turno";
-            // 
-            // pictureBoxDado
-            // 
-            pictureBoxDado.Location = new Point(75, 244);
-            pictureBoxDado.Name = "pictureBoxDado";
-            pictureBoxDado.Size = new Size(92, 85);
-            pictureBoxDado.TabIndex = 1;
-            pictureBoxDado.TabStop = false;
-            // 
-            // b_lanzar_dado
-            // 
-            b_lanzar_dado.Location = new Point(48, 346);
-            b_lanzar_dado.Name = "b_lanzar_dado";
-            b_lanzar_dado.Size = new Size(153, 43);
-            b_lanzar_dado.TabIndex = 0;
-            b_lanzar_dado.Text = "Lanzar dado";
-            b_lanzar_dado.UseVisualStyleBackColor = true;
-            // 
             // l_pos_rojo2
             // 
             l_pos_rojo2.AutoSize = true;
@@ -1439,6 +1391,61 @@
             l_pos_verde4.Text = "label17";
             l_pos_verde4.Visible = false;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(button77);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(pictureBoxDado);
+            panel1.Controls.Add(b_lanzar_dado);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(694, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(248, 688);
+            panel1.TabIndex = 1;
+            // 
+            // button77
+            // 
+            button77.BackColor = Color.Red;
+            button77.Enabled = false;
+            button77.FlatStyle = FlatStyle.Flat;
+            button77.Location = new Point(111, 104);
+            button77.Name = "button77";
+            button77.Size = new Size(107, 32);
+            button77.TabIndex = 3;
+            button77.UseVisualStyleBackColor = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(18, 100);
+            label1.Name = "label1";
+            label1.Size = new Size(91, 37);
+            label1.TabIndex = 2;
+            label1.Text = "Turno";
+            // 
+            // pictureBoxDado
+            // 
+            pictureBoxDado.Location = new Point(75, 244);
+            pictureBoxDado.Name = "pictureBoxDado";
+            pictureBoxDado.Size = new Size(92, 85);
+            pictureBoxDado.TabIndex = 1;
+            pictureBoxDado.TabStop = false;
+            // 
+            // b_lanzar_dado
+            // 
+            b_lanzar_dado.Location = new Point(48, 346);
+            b_lanzar_dado.Name = "b_lanzar_dado";
+            b_lanzar_dado.Size = new Size(153, 43);
+            b_lanzar_dado.TabIndex = 0;
+            b_lanzar_dado.Text = "Lanzar dado";
+            b_lanzar_dado.UseVisualStyleBackColor = true;
+            b_lanzar_dado.Click += b_lanzar_dado_Click;
+            // 
+            // timerDado
+            // 
+            timerDado.Tick += timerDado_Tick;
+            // 
             // TableroLudo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1557,5 +1564,6 @@
         private Label l_pos_verde2;
         private Label l_pos_verde3;
         private Label l_pos_verde4;
+        private System.Windows.Forms.Timer timerDado;
     }
 }
