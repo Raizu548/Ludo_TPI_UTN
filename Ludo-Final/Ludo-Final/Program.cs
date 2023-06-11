@@ -1,3 +1,5 @@
+using Ludo_TPI;
+
 namespace Ludo_Final
 {
     internal static class Program
