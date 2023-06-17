@@ -125,7 +125,7 @@
             l_pos_verde3 = new Label();
             l_pos_verde4 = new Label();
             panel1 = new Panel();
-            button77 = new Button();
+            btn_turnos = new Button();
             label1 = new Label();
             pictureBoxDado = new PictureBox();
             b_lanzar_dado = new Button();
@@ -1393,7 +1393,7 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(button77);
+            panel1.Controls.Add(btn_turnos);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBoxDado);
             panel1.Controls.Add(b_lanzar_dado);
@@ -1403,16 +1403,16 @@
             panel1.Size = new Size(248, 688);
             panel1.TabIndex = 1;
             // 
-            // button77
+            // btn_turnos
             // 
-            button77.BackColor = Color.Red;
-            button77.Enabled = false;
-            button77.FlatStyle = FlatStyle.Flat;
-            button77.Location = new Point(111, 104);
-            button77.Name = "button77";
-            button77.Size = new Size(107, 32);
-            button77.TabIndex = 3;
-            button77.UseVisualStyleBackColor = false;
+            btn_turnos.BackColor = Color.Red;
+            btn_turnos.Enabled = false;
+            btn_turnos.FlatStyle = FlatStyle.Flat;
+            btn_turnos.Location = new Point(111, 104);
+            btn_turnos.Name = "btn_turnos";
+            btn_turnos.Size = new Size(107, 32);
+            btn_turnos.TabIndex = 3;
+            btn_turnos.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -1544,7 +1544,7 @@
         private Button button75;
         private Button button76;
         private Panel panel1;
-        private Button button77;
+        private Button btn_turnos;
         private Label label1;
         private PictureBox pictureBoxDado;
         private Button b_lanzar_dado;
