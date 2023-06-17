@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TableroLudo));
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -144,6 +145,11 @@
             b_fichaAma2 = new Button();
             b_fichaAma3 = new Button();
             b_fichaAma4 = new Button();
+            btn_turnos = new Button();
+            label1 = new Label();
+            pictureBoxDado = new PictureBox();
+            b_lanzar_dado = new Button();
+            timerDado = new System.Windows.Forms.Timer(components);
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             panel1.SuspendLayout();
@@ -1407,6 +1413,7 @@
             // 
             // panel1
             // 
+
             panel1.Controls.Add(b_fichaAma4);
             panel1.Controls.Add(b_fichaAma3);
             panel1.Controls.Add(b_fichaAma2);
@@ -1424,6 +1431,7 @@
             panel1.Controls.Add(b_fichaVerde2);
             panel1.Controls.Add(b_fichaVerde1);
             panel1.Controls.Add(button77);
+            panel1.Controls.Add(btn_turnos);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBoxDado);
             panel1.Controls.Add(b_lanzar_dado);
@@ -1433,6 +1441,7 @@
             panel1.Size = new Size(248, 688);
             panel1.TabIndex = 1;
             // 
+
             // b_fichaVerde4
             // 
             b_fichaVerde4.BackColor = Color.LightGreen;
@@ -1491,6 +1500,18 @@
             button77.Size = new Size(107, 32);
             button77.TabIndex = 3;
             button77.UseVisualStyleBackColor = false;
+
+            // btn_turnos
+            // 
+            btn_turnos.BackColor = Color.Red;
+            btn_turnos.Enabled = false;
+            btn_turnos.FlatStyle = FlatStyle.Flat;
+            btn_turnos.Location = new Point(111, 104);
+            btn_turnos.Name = "btn_turnos";
+            btn_turnos.Size = new Size(107, 32);
+            btn_turnos.TabIndex = 3;
+            btn_turnos.UseVisualStyleBackColor = false;
+
             // 
             // label1
             // 
@@ -1662,6 +1683,11 @@
             b_fichaAma4.TabIndex = 19;
             b_fichaAma4.UseVisualStyleBackColor = false;
             b_fichaAma4.Visible = false;
+            b_lanzar_dado.Click += b_lanzar_dado_Click;
+            // 
+            // timerDado
+            // 
+            timerDado.Tick += timerDado_Tick;
             // 
             // TableroLudo
             // 
@@ -1761,7 +1787,7 @@
         private Button button72;
         private Button button71;
         private Panel panel1;
-        private Button button77;
+        private Button btn_turnos;
         private Label label1;
         private PictureBox pictureBoxDado;
         private Button b_lanzar_dado;
@@ -1797,5 +1823,6 @@
         private Button b_fichaRojo4;
         private Button b_fichaRojo3;
         private Button b_fichaRojo2;
+        private System.Windows.Forms.Timer timerDado;
     }
 }
