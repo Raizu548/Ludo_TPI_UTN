@@ -32,16 +32,7 @@ namespace Ludo_Final
         //compruebo si el Color del BtnTurno del Tablero , coincida con el Color del Jugador
         public Boolean comprobarMover(Button btnTurno) 
         {
-            if(btnTurno.BackColor == colorJugador) 
-            {
-                return true;
-
-            }
-            else
-            {
-                return false;
-            }
-        
+            return btnTurno.BackColor == colorJugador;
         }
 
         public Color generarColor()
@@ -50,18 +41,13 @@ namespace Ludo_Final
             switch (id)
             {
                 case 1: color = Color.Lime; break;
-
                 case 2: color = Color.Red; break;
-
                 case 3: color = Color.Yellow; break;
-
                 case 4: color = Color.Blue; break;
-
                 default:color = Color.White; break;
             }
 
             return color;
-
         }
 
     }

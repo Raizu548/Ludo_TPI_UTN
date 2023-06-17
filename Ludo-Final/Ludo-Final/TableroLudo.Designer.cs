@@ -129,7 +129,7 @@
             b_fichaVerde3 = new Button();
             b_fichaVerde2 = new Button();
             b_fichaVerde1 = new Button();
-            button77 = new Button();
+            btn_turnos = new Button();
             label1 = new Label();
             pictureBoxDado = new PictureBox();
             b_lanzar_dado = new Button();
@@ -1430,7 +1430,7 @@
             panel1.Controls.Add(b_fichaVerde3);
             panel1.Controls.Add(b_fichaVerde2);
             panel1.Controls.Add(b_fichaVerde1);
-            panel1.Controls.Add(button77);
+            panel1.Controls.Add(btn_turnos);
             panel1.Controls.Add(btn_turnos);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBoxDado);
@@ -1492,14 +1492,14 @@
             // 
             // button77
             // 
-            button77.BackColor = Color.Red;
-            button77.Enabled = false;
-            button77.FlatStyle = FlatStyle.Flat;
-            button77.Location = new Point(111, 104);
-            button77.Name = "button77";
-            button77.Size = new Size(107, 32);
-            button77.TabIndex = 3;
-            button77.UseVisualStyleBackColor = false;
+            btn_turnos.BackColor = Color.Red;
+            btn_turnos.Enabled = false;
+            btn_turnos.FlatStyle = FlatStyle.Flat;
+            btn_turnos.Location = new Point(111, 104);
+            btn_turnos.Name = "button77";
+            btn_turnos.Size = new Size(107, 32);
+            btn_turnos.TabIndex = 3;
+            btn_turnos.UseVisualStyleBackColor = false;
 
             // btn_turnos
             // 

@@ -14,7 +14,6 @@ namespace Ludo_Final
         {
             TableroLudo ventanaTableroLudo = new TableroLudo(1,true);
             ventanaTableroLudo.Show();
-            this.Hide();
         }
     }
 }
