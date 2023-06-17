@@ -48,6 +48,7 @@
             button1.TabIndex = 1;
             button1.Text = "Jugar 1 VS IA";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // tableLayoutPanel1
             // 

@@ -1,3 +1,5 @@
+using Ludo_TPI;
+
 namespace Ludo_Final
 {
     public partial class VentanaMenu : Form
@@ -8,5 +10,11 @@ namespace Ludo_Final
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TableroLudo ventanaTableroLudo = new TableroLudo(1,true);
+            ventanaTableroLudo.Show();
+            this.Hide();
+        }
     }
 }
