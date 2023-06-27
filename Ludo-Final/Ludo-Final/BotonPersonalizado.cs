@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ludo_Final
+namespace Ludo_Copia
 {
     enum Tipo { Seguro, NoSeguro, Final}
     internal class BotonPersonalizado
@@ -12,32 +12,149 @@ namespace Ludo_Final
         private Button boton;
         private int id;
         private Tipo tipo;
-        private int[] posCentral = new int[2];
+        private Point pointCentral = new Point();
+        private Color cActivado;
+        private Color cDesactivado;
+        private List<Ficha> listaFichas = new List<Ficha>();
+        private List<Point> listUbicacion = new List<Point>();
 
-        public BotonPersonalizado(Button boton, int id, Tipo tipo)
+        public BotonPersonalizado(Button boton, int id, Tipo tipo, Color cActivado)
         {
             this.boton = boton;
             this.id = id;
             this.tipo = tipo;
-            this.posCentral = ObtenerPosCentral(boton);
+            this.cDesactivado = boton.BackColor;
+            this.cActivado = cActivado;
+            this.pointCentral = ObtenerPosCentral(boton);
+            cargarPuntos();
         }
 
         public Button GetBoton() { return boton; }
         public int GetId() { return id; }
-        public int[] GetPosCentral() { return posCentral; }
-        public int GetPosCentralX() { return posCentral[0]; }
-        public int GetPosCentralY() { return posCentral[1]; }
+        public Point getPointCentral() { return pointCentral; }
         public Tipo GetTipo() { return tipo; }
+        public bool esSeguro() { return tipo == Tipo.Seguro; }
+        public int getCantFichas() { return listaFichas.Count; }
+        public bool tieneFicha() { return listaFichas.Count > 0; }
 
-        private int[] ObtenerPosCentral(Button boton)
+        public void activarBoton()
         {
-            int[] posCentral = new int[2];
-
-            // Lo divido por 4 ya que es la mitad de la mitad (Esto se puede hacer mejor de otra forma)
-            posCentral[0] = boton.Location.X + (boton.Size.Width / 4);
-            posCentral[1] = boton.Location.Y + (boton.Size.Height / 4);
-
-            return posCentral;
+            this.boton.BackColor = cActivado;
+            boton.Enabled = true;
         }
+
+        public void desactivarBoton()
+        {
+            this.boton.BackColor = cDesactivado;
+            boton.Enabled = false;
+        }
+
+        private Point ObtenerPosCentral(Button boton)
+        {
+            pointCentral = new Point(boton.Location.X + 8, boton.Location.Y + 8);
+            return pointCentral;
+        }
+
+        private void cargarPuntos()
+        {
+            Point punto = new Point(boton.Location.X, boton.Location.Y);
+            listUbicacion.Add(punto);
+            punto = new Point(boton.Location.X + 26, boton.Location.Y);
+            listUbicacion.Add(punto);
+            punto = new Point(boton.Location.X , boton.Location.Y +26);
+            listUbicacion.Add(punto);
+            punto = new Point(boton.Location.X + 26, boton.Location.Y +26);
+            listUbicacion.Add(punto);
+        }
+
+        public void agregarFicha(Ficha f)
+        {
+            if (listaFichas.Count == 0)
+            {
+                listaFichas.Add(f);
+            }
+            else
+            {
+                if (listaFichas.Count < 5)
+                {
+                    listaFichas.Add(f);
+                    cambiarPosicion();
+                }
+            }
+        }
+
+        public void sacarFicha(Ficha f)
+        {
+            if (listaFichas.Count > 1) f.agrandar(); // al sacar la ficha lo vuevlo a su tamaño normal
+
+            listaFichas.Remove(f);
+            if (listaFichas.Count == 1)
+            {// si queda una sola ficha lo pongo en tamaño normal y en la pocision central
+                Ficha aux = listaFichas[0];
+                aux.getFicha().Location = new Point(pointCentral.X, pointCentral.Y);
+                aux.agrandar();
+            }
+            else
+            {
+                cambiarPosicion();
+            }
+        }
+
+        public void logicaComer(Ficha f, Jugador jugador)
+        {
+            // Logica de comprobar si hay una ficha extra sino comer
+            if (!esSeguro())
+            {
+                if (tieneFicha())
+                {
+                    if (getCantFichas() == 1)
+                    { // si ya hay una ficha comprueba si puede comer
+                        comprobarCome(f, jugador);
+                    }
+                    else
+                    { // si no hay una ficha o hay mas de 2 agrega la ficha nueva
+                        agregarFicha(f);
+                    }
+                }
+                else
+                { // si no hay ficha solo agrega
+                    agregarFicha(f);
+                }
+            }
+            else
+            {
+                agregarFicha(f);
+            }
+
+        }
+
+        public void comprobarCome(Ficha f, Jugador jugador)
+        {
+            if (f.GetColor() != listaFichas[0].GetColor())
+            {
+                Ficha fsale = listaFichas[0];
+                listaFichas.Remove(fsale);
+                fsale.volverACasa();
+                jugador.ponerFichaCasa(fsale);
+                listaFichas.Add(f);
+            }
+            else
+            {
+                listaFichas.Add(f);
+                cambiarPosicion();
+            }
+        }
+
+        private void cambiarPosicion()
+        {
+            int i = 0;
+            foreach (Ficha f in listaFichas)
+            {
+                f.achicar();
+                f.getFicha().Location = new Point(listUbicacion[i].X, listUbicacion[i].Y);
+                i++;
+            }
+        }
+
     }
 }

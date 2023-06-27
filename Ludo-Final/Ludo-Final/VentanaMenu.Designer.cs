@@ -1,4 +1,4 @@
-﻿namespace Ludo_Final
+﻿namespace Ludo_Copia
 {
     partial class VentanaMenu
     {
@@ -88,6 +88,7 @@
             button2.TabIndex = 2;
             button2.Text = "2 jugadores";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -98,8 +99,9 @@
             button3.Name = "button3";
             button3.Size = new Size(199, 48);
             button3.TabIndex = 3;
-            button3.Text = "4 jugadores";
+            button3.Text = "3 jugadores";
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button4
             // 
@@ -110,8 +112,9 @@
             button4.Name = "button4";
             button4.Size = new Size(199, 48);
             button4.TabIndex = 4;
-            button4.Text = "Salir";
+            button4.Text = "4 Jugadores";
             button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click;
             // 
             // VentanaMenu
             // 

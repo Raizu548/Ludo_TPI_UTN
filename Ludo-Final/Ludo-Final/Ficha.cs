@@ -1,57 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ludo_Final
+namespace Ludo_Copia
 {
     internal class Ficha
     {
-        private Button b_ficha;
+        private PictureBox b_ficha;
         private int id;
+        private Color color;
         private BotonPersonalizado ubicacion;
-        private Label inicio;
+        private Point posInicial;
         private System.Timers.Timer timer;
         private bool enMovimiento = false;
+        private bool enCasa = true;
 
-        public Ficha(int id, Button ficha, Label b_inicio)
+        public Ficha(int id, PictureBox ficha)
         {
             SetTimer();
             this.b_ficha = ficha;
+            posInicial = ficha.Location;
             this.id = id;
-            this.inicio = b_inicio;
-            PosicionarFicha();
         }
 
         public bool GetEnMovimiento() { return enMovimiento; }
         public BotonPersonalizado GetUbicacion() { return ubicacion; }
         public int GetId() { return id; }
+        public PictureBox getFicha() { return b_ficha; }
+        public bool getEnCasa() { return enCasa; }
+        public Color GetColor() { return color; }
+        public void setColor(Color color) { this.color = color; }
         
-        private void PosicionarFicha()
+        public void volverACasa()
         {
-            b_ficha.Location = inicio.Location;
+            b_ficha.Location = posInicial;
+            ubicacion = null;
+            enCasa = true;
         }
 
         public void MoverFicha(BotonPersonalizado boton)
         {
-            ubicacion = boton; // se le pasa a donde se va a mover
+            ponerFichaJuego(boton);
             enMovimiento = true; // Se avisa que esta en movimiento
             timer.Start(); // Inicializa la animacion
         }
 
-        public void comerFicha(Ficha f)
-        {
-            f.PosicionarFicha();
-        }
-
-        public void ponerFichaJuego()
+        public void ponerFichaJuego(BotonPersonalizado boton)
         { //Pone a la ficha en el punto de inicio para poder moverse
-            int[] posiciones = ubicacion.GetPosCentral();
-            b_ficha.Location = new Point(posiciones[0], posiciones[1]);
+            enCasa = false;
+            ubicacion = boton;
         }
 
-        public bool Equals(Button obj)
+        public void activarFicha()
+        {
+            b_ficha.Enabled = true;
+            b_ficha.BackColor = Color.Pink;
+        }
+
+        public void desactivarFicha()
+        {
+            b_ficha.Enabled = false;
+            b_ficha.BackColor = Color.Transparent;
+        }
+
+        public void achicar()
+        {
+            b_ficha.Size = new Size(20, 20);
+        }
+
+        public void agrandar()
+        {
+            b_ficha.Size = new Size(30, 30);
+        }
+
+        public bool Equals(PictureBox obj)
         { // busca por posicion en la memoria si estan en la misma pos es el mismo objeto
             if (obj == null) return false;
             return obj == b_ficha;
@@ -60,7 +85,7 @@ namespace Ludo_Final
         private void SetTimer()
         {
             // Create a timer with a two second interval.
-            timer = new System.Timers.Timer(20);
+            timer = new System.Timers.Timer(10);
             // Hook up the Elapsed event for the timer. 
             timer.Elapsed += OnTimerEvent; // enlaza el timer, con el metodo que esta mas abajo
             timer.AutoReset = true;
@@ -70,22 +95,22 @@ namespace Ludo_Final
         private void OnTimerEvent(object sender, EventArgs e)
         {
             // Esta secuencia se ejecuta cada 20 milisegundo
-            if (b_ficha.Location.X != ubicacion.GetPosCentralX())
+            if (this.b_ficha.Location.X != ubicacion.getPointCentral().X)
             {
-                if (b_ficha.Location.X < ubicacion.GetPosCentralX()) b_ficha.Left++;
-                else b_ficha.Left--;
+                if (this.b_ficha.Location.X < ubicacion.getPointCentral().X) this.b_ficha.Left++;
+                else this.b_ficha.Left--;
             }
 
-            if (b_ficha.Location.Y != ubicacion.GetPosCentralY())
+            if (b_ficha.Location.Y != ubicacion.getPointCentral().Y)
             {
-                if (b_ficha.Location.Y < ubicacion.GetPosCentralY()) b_ficha.Top++;
-                else b_ficha.Top--;
+                if (this.b_ficha.Location.Y < ubicacion.getPointCentral().Y) this.b_ficha.Top++;
+                else this.b_ficha.Top--;
             }
 
-            if (b_ficha.Location.X == ubicacion.GetPosCentralX() && b_ficha.Location.Y == ubicacion.GetPosCentralY())
+            if (this.b_ficha.Location.X == ubicacion.getPointCentral().X && this.b_ficha.Location.Y == ubicacion.getPointCentral().Y)
             {
-                timer.Stop();
                 enMovimiento = false;
+                timer.Stop();
             }
         }
     }
