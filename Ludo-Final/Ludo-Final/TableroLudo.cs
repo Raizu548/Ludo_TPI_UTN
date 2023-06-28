@@ -9,203 +9,43 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     public partial class TableroLudo : Form
     {
-
+        // Contienen los objetos para mantener las referencias
         private List<BotonPersonalizado> listaBotones = new List<BotonPersonalizado>();
         private List<Ficha> listaFichas = new List<Ficha>();
         private List<Jugador> listaJugadores = new List<Jugador>();
-        // Con estos 2 atributos podemos saber cuantos jugadores hay y si hay IA.
+        // Con este atributo podemos saber cuantos jugadores hay y si hay IA.
         private bool iaActiva;
-        private int cantJugadores;
 
         // Secuencia de juego
         Ficha fichaSeleccionada;
         Jugador jugadorActual;
         BotonPersonalizado botonActivado;
-        int turnoJugador = 0;
         int cantMovimiento;
-        bool terminoTurno = false;
-        bool tiroDado = false;
-        bool seActivoFichas = false;
 
-        // Dado????
+        // Dado
         Dado dado = new Dado();
         int contadorDado = 0;
-        int contadorTurno = 0;
-        int dadoSeleccionado; // sirve
-        int indiceJugador = 0;
-        bool timerSeDetuvo = false;
-        bool seOrdeno = false;
-        List<Jugador> ordenTurno = new List<Jugador>();
+        int dadoSeleccionado;
+
 
         public TableroLudo(int canJugador, bool iaActiva)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cargarBotones();
-            //btn_turnos.BackColor = Color.White;
+            this.iaActiva = iaActiva;
             cargarJugadores(canJugador);
-            this.iaActiva = iaActiva;
-            jugadorActual = listaJugadores[0];
-
-            this.cantJugadores = canJugador;
-            this.iaActiva = iaActiva;
+            jugadorActual = listaJugadores[0]; // asigno el turno al primer jugador
         }
 
 
-        private List<BotonPersonalizado> cargarRuta(int inicio, int final, int extras)
-        {
-            //Este metodo permite asignar una ruta de camino segur el color del jugador
-            //Le pasas el donde comienza hasta donde llega, y despues los 6 pasos finales
-            List<BotonPersonalizado> ruta = new List<BotonPersonalizado>();
+        // -------------------------- METODOS DE CARGA --------------------------
 
-            //Carga desde donde comienza la ficha
-            //Hasta donde la ficha va a entrar
-            do
-            {
-                if (inicio > 51) inicio = 0;
-                ruta.Add(listaBotones[inicio]);
-                inicio++;
-
-            } while (inicio != final +1);
-
-            // Carga las 6 baldosas finales antes de llegar a la meta, incluido la meta
-            for (int i = 0; i < 6; i++)
-            {
-                ruta.Add(listaBotones[extras]);
-                extras++;
-            }
-
-            return ruta;
-        }
-
-        private void timerDado_Tick(object sender, EventArgs e)
-        {
-            int x = dado.tirarDado();
-
-            if (contadorDado != 10)
-            {
-                // ejecuta animacion de Dado
-                pictureBoxDado.Load(dado.animacion(x));
-            }
-            else
-            {
-                timerDado.Stop();
-                dadoSeleccionado = x;
-                pictureBoxDado.Load(dado.animacion(dadoSeleccionado));
-
-                contadorDado = 0;
-                tiroDado = true;
-                timerSeDetuvo = true;
-
-                // Activa las fichas que se pueden mover del jugador actual
-                activarFichas();
-            }
-
-            contadorDado++;
-        }
-
-        private void b_lanzar_dado_Click(object sender, EventArgs e)
-        {
-            b_lanzar_dado.Enabled = false;
-            timerDado.Start();
-            /*
-            //verifico si se ordeno
-            if (seOrdeno != true)
-            {
-                if (contadorTurno < ordenTurno.Count)
-                {
-                    timerDado.Start();
-                    b_lanzar_dado.Enabled = false;
-                    ordenTurno[contadorTurno].setnroDado(dadoSeleccionado);
-                    contadorTurno++;
-
-                }
-
-                if (contadorTurno == ordenTurno.Count)
-                {
-                    ordenarTurnos();
-                }
-
-            }
-
-            //cambio de color dependiendo del turno del juagador
-            if (timerSeDetuvo)
-            {
-                if (indiceJugador > ordenTurno.Count - 1)
-                {
-                    indiceJugador = 0;
-                }
-                cambiarColorBtnTurno(indiceJugador);
-                indiceJugador++;
-                timerSeDetuvo = false;
-            }
-            timerDado.Start();
-            b_lanzar_dado.Enabled = false;
-            */
-
-        }
-
-        private void llenarLista()
-        {
-            /*
-            ordenTurno.Add(new Jugador(1));
-            ordenTurno.Add(new Jugador(2));
-            ordenTurno.Add(new Jugador(3));
-            ordenTurno.Add(new Jugador(4));
-            */
-        } // Metodo de Luciano
-
-        private void activarFichas()
-        {
-            // Activa las fichas que se pueden mover
-            if (dadoSeleccionado == 1 || dadoSeleccionado == 6)
-            {
-                jugadorActual.activarFichas();
-                Debug.WriteLine("1 o 6");
-            }
-            else if (jugadorActual.getFichaJuego())
-            {
-                jugadorActual.activarFichaJuego();
-            }
-            else
-            {
-                terminarTurno();
-            }
-        }
-
-        private void terminarTurno()
-        {
-            // Procedimientos que se lleva a cabo al finalizar el turno
-            terminoTurno = true;
-            jugadorActual.desactivarFichas();
-            pasarTurno();
-            MessageBox.Show("Sigue jugador " + jugadorActual.getColor(), "Fin del turno");
-            btn_turnos.BackColor = jugadorActual.getColor();
-            b_lanzar_dado.Enabled = true; // activa el boton
-            jugadorActual.desactivarFichas(); // desactiva las fichas para que no se puedan seleccionar
-            if (botonActivado != null) botonActivado.desactivarBoton(); // desactiva el boton de posicion
-        }
-
-        private void pasarTurno()
-        {
-            int turno = listaJugadores.IndexOf(jugadorActual);
-            turno++;
-
-            if (turno < listaJugadores.Count)
-            {
-                jugadorActual = listaJugadores[turno];
-            }
-            else
-            {
-                jugadorActual = listaJugadores[0];
-            }
-        }
-
-        private void cargarBotones()
+        private void cargarBotones() // <- Carga Botones
         {
             // Se realiza la carga de los Botones y Fichas
             listaBotones.Add(new BotonPersonalizado(button1, 0, Tipo.Seguro, Color.Green));
@@ -314,15 +154,165 @@ namespace Ludo_Copia
 
         }
 
-        private void Btn_Click(object sender, EventArgs e)
+        private List<BotonPersonalizado> cargarRuta(int inicio, int final, int extras) // <- Carga la ruta a seguir
+        {
+            //Este metodo permite asignar una ruta de camino segur el color del jugador
+            //Le pasas el donde comienza hasta donde llega, y despues los 6 pasos finales
+            List<BotonPersonalizado> ruta = new List<BotonPersonalizado>();
+
+            //Carga desde donde comienza la ficha
+            //Hasta donde la ficha va a entrar
+            do
+            {
+                if (inicio > 51) inicio = 0;
+                ruta.Add(listaBotones[inicio]);
+                inicio++;
+
+            } while (inicio != final + 1);
+
+            // Carga las 6 baldosas finales antes de llegar a la meta, incluido la meta
+            for (int i = 0; i < 6; i++)
+            {
+                ruta.Add(listaBotones[extras]);
+                extras++;
+            }
+
+            return ruta;
+        }
+
+        private void cargarJugadores(int cant) // <- Carga los jugadores
+        {
+            // Carga los jugadores 
+            if (cant >= 1) { cargarHumano(0, 4, 0, 50, 52, 0); } // Verde 50, 52, 0
+            if (cant >= 2) { cargarHumano(4, 8, 26, 24, 64, 1); } // Azul 24, 64, 1
+            if (cant >= 3) { cargarHumano(8, 12, 13, 11, 58, 2); } // Rojo 11, 58, 2
+            if (cant >= 4) { cargarHumano(12, 16, 39, 37, 70, 3); } // Amarillo 37, 70, 3
+
+            if (iaActiva) cargarIA(4, 8, 26, 24, 64, 1);
+        }
+
+        private void cargarIA(int inFicha, int finFicha, int inRuta, int finRuta, int extRuta, int id) // <- Carga la IA 
+        {
+            listaJugadores.Add(new JugadorIA(id, cargarFicha(inFicha, finFicha), cargarRuta(inRuta, finRuta, extRuta)));
+        }
+
+        private void cargarHumano(int inFicha, int finFicha, int inRuta, int finRuta, int extRuta, int id) // <- Carga los jugadores
+        {
+            listaJugadores.Add(new JugadorHum(id, cargarFicha(inFicha, finFicha), cargarRuta(inRuta, finRuta, extRuta)));
+        }
+
+        private List<Ficha> cargarFicha(int inFicha, int finFicha) // <- Asigna las fichas a los jugadores
+        {
+            List<Ficha> fichas = new List<Ficha>();
+            for (int i = inFicha; i < finFicha; i++)
+            {
+                fichas.Add(listaFichas[i]);
+                listaFichas[i].getFicha().Visible = true;
+            }
+
+            return fichas;
+        }
+
+        // -------------------------- METODOS DE COMPONENTES --------------------------
+
+        private void b_lanzar_dado_Click(object sender, EventArgs e) // <- lanza los dados
+        {
+            jugar();
+        }
+
+        private void Btn_Click(object sender, EventArgs e) // <- Boton seleccionado
         {
             // Todas las casillas pueden realizar este evento
             Button clickedButton = (Button)sender;
-            BotonPersonalizado btn = listaBotones.Find(boton => boton.GetBoton() == clickedButton);
+            // seleciono la casilla y se mueve la ficha
+            moverFicha();
+
+        }
+
+        private void Pbox_Click(object sender, EventArgs e) // <- Ficha seleccionada
+        { // Todos los Picture box pueden realizar este evento
+
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            if (botonActivado != null) botonActivado.desactivarBoton();
+            // Se guarda la ficha que fue seleccionada
+            fichaSeleccionada = listaFichas.Find(boton => boton.getFicha() == clickedPictureBox);
+
+            if (fichaSeleccionada != null)
+            { // Activa la casilla a la que se puede mover
+                if (!jugadorActual.pasaFinal(dadoSeleccionado, fichaSeleccionada.GetUbicacion()))
+                {
+                    botonActivado = jugadorActual.posicionMover(fichaSeleccionada.GetUbicacion(), dadoSeleccionado);
+                    botonActivado.activarBoton();
+                }
+
+            }
+
+        }
+
+        private void timerDado_Tick(object sender, EventArgs e) // <- Animacion de dado
+        {
+            int x = dado.tirarDado();
+
+            if (contadorDado != 10)
+            {
+                // ejecuta animacion de Dado
+                pictureBoxDado.Load(dado.animacion(x));
+            }
+            else
+            {
+                timerDado.Stop();
+                dadoSeleccionado = x;
+                pictureBoxDado.Load(dado.animacion(dadoSeleccionado));
+
+                contadorDado = 0;
+
+                // Activa las fichas que se pueden mover del jugador actual
+                activarFichasJugadorActual();
+
+            }
+
+            contadorDado++;
+        }
+
+        private void timerMovimiento_Tick(object sender, EventArgs e) // <- Mueve la ficha
+        { // Mueve la ficha
+            if (!fichaSeleccionada.GetEnMovimiento() && cantMovimiento > 0)
+            {
+                fichaSeleccionada.MoverFicha(jugadorActual.posicionMover(fichaSeleccionada.GetUbicacion(), 1));
+                cantMovimiento--;
+            }
+            else if (cantMovimiento == 0 && !fichaSeleccionada.GetEnMovimiento())
+            {
+                // Comprueba si puede comer
+                botonActivado.logicaComer(fichaSeleccionada, jugadorActual);
+                timerMovimiento.Stop();
+
+                jugadorActual.entroAlRecorrido(fichaSeleccionada);
+
+                if (jugadorActual.gano())
+                {
+                    MessageBox.Show("Gano el jugador " + jugadorActual.getColor(), "Fin del juego");
+                    this.Close();
+                }
+
+                terminarTurno();
+            }
+        }
+
+        // -------------------------- METODOS AUXILIARES --------------------------
+
+        private void jugar() // Accion jugar
+        {
+            b_lanzar_dado.Enabled = false;
+            timerDado.Start();
+        }
+
+        private void moverFicha() // <- Verifica si puede mover la ficha
+        {
             // seleciono la casilla y se mueve la ficha
             if (!jugadorActual.pasaFinal(dadoSeleccionado, fichaSeleccionada.GetUbicacion()))
             {
-                seActivoFichas = true;
+
                 if (fichaSeleccionada.getEnCasa())
                 { // Si la ficha no esta en juego
 
@@ -339,75 +329,95 @@ namespace Ludo_Copia
                     cantMovimiento = dadoSeleccionado;
                     timerMovimiento.Start();
                 }
-                tiroDado = false;
 
             }
-
-            
         }
 
-        private void Pbox_Click(object sender, EventArgs e)
-        { // Todos los Picture box pueden realizar este evento
+        private void activarFichasJugadorActual()
+        {
+            // Activa las fichas que se pueden mover del jugador actual
+            if (jugadorActual is JugadorHum)
+            {
+                activarFichas();
+            }
+            else
+            { // juega la IA
+                JugadorIA jugadorIA = (JugadorIA)jugadorActual;
+                fichaSeleccionada = jugadorIA.seleccionarFicha(dadoSeleccionado);
 
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            if (botonActivado != null) botonActivado.desactivarBoton();
-            // Se guarda la ficha que fue seleccionada
-            fichaSeleccionada = listaFichas.Find(boton => boton.getFicha() == clickedPictureBox);
-
-            if (fichaSeleccionada != null)
-            { // Activa la casilla a la que se puede mover
-                if (!jugadorActual.pasaFinal(dadoSeleccionado, fichaSeleccionada.GetUbicacion()))
+                if (fichaSeleccionada != null)
                 {
                     botonActivado = jugadorActual.posicionMover(fichaSeleccionada.GetUbicacion(), dadoSeleccionado);
-                    botonActivado.activarBoton();
+
+                    moverFicha();
                 }
-                    
-            }
-
-        }
-
-        private void cargarJugadores(int cant)
-        {
-            // Carga los jugadores 
-            if (cant >= 1) { cargarDatos(0, 4, 0, 50, 52, 0); } // Verde 50, 52, 0
-            if (cant >= 2) { cargarDatos(4, 8, 26, 24, 64, 1); } // Azul 24, 64, 1
-            if (cant >= 3) { cargarDatos(8, 12, 13, 11, 58, 2); } // Rojo 11, 58, 2
-            if (cant >= 4) { cargarDatos(12, 16, 39, 37, 70, 3); } // Amarillo 37, 70, 3
-            label2.Text = listaJugadores.Count.ToString() + " - " + cant;
-        }
-
-        private void cargarDatos(int inFicha, int finFicha, int inRuta, int finRuta, int extRuta, int id)
-        { // Carga todos los datos de los jugadores
-            List<Ficha> Fichas = new List<Ficha>();
-            for (int i = inFicha; i < finFicha; i++)
-            {
-                Fichas.Add(listaFichas[i]);
-            }
-            listaJugadores.Add(new Jugador(id, Fichas, cargarRuta(inRuta, finRuta, extRuta)));
-        }
-
-        private void timerMovimiento_Tick(object sender, EventArgs e)
-        { // Mueve la ficha
-            if (!fichaSeleccionada.GetEnMovimiento() && cantMovimiento > 0)
-            {
-                fichaSeleccionada.MoverFicha(jugadorActual.posicionMover(fichaSeleccionada.GetUbicacion(), 1));
-                cantMovimiento--;
-            }
-            else if (cantMovimiento == 0 && !fichaSeleccionada.GetEnMovimiento())
-            {
-                botonActivado.logicaComer(fichaSeleccionada, jugadorActual);
-                timerMovimiento.Stop();
-
-                jugadorActual.entroAlRecorrido(fichaSeleccionada);
-
-                if (jugadorActual.gano())
+                else
                 {
-                    MessageBox.Show("Gano el jugador " + jugadorActual.getColor(), "Fin del juego");
-                    this.Close();
+                    terminarTurno();
                 }
+            }
+        }
 
+        private void activarFichas() // <- Activa las fichas para su seleccion
+        {
+            JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
+            // Activa las fichas que se pueden mover
+            if (dadoSeleccionado == 1 || dadoSeleccionado == 6)
+            {
+                jugadorHumano.activarFichas();
+                Debug.WriteLine("1 o 6");
+            }
+            else if (jugadorActual.getFichaJuego())
+            {
+                jugadorHumano.activarFichaJuego();
+            }
+            else
+            {
                 terminarTurno();
             }
         }
+
+        private void terminarTurno() // <- Procedimiento al terminar el turno
+        {
+            // Procedimientos que se lleva a cabo al finalizar el turno
+
+            if (jugadorActual is JugadorHum)
+            {
+                JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
+                jugadorHumano.desactivarFichas();
+            }
+
+            pasarTurno();
+            MessageBox.Show("Sigue jugador " + jugadorActual.getColor(), "Fin del turno");
+            btn_turnos.BackColor = jugadorActual.getColor();
+
+            if (botonActivado != null) botonActivado.desactivarBoton(); // desactiva el boton de posicion
+
+            if (jugadorActual is JugadorIA)
+            {
+                b_lanzar_dado.Enabled = false;
+                jugar();
+            }
+            else
+            {
+                b_lanzar_dado.Enabled = true; // activa el boton
+            }
+        }
+
+        private void pasarTurno() // <- Pasa el turno
+        {
+            int turno = listaJugadores.IndexOf(jugadorActual);
+            turno++;
+
+            if (turno < listaJugadores.Count)
+            {
+                jugadorActual = listaJugadores[turno];
+            }
+            else
+            {
+                jugadorActual = listaJugadores[0];
+            }
+        }
+  
     }
 }

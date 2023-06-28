@@ -4,25 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     internal class Jugador
     {
-        private Boolean poderMover;
-        private int nroDado;
-        private int id;
-        private Color colorJugador;
-        private List<Ficha> fichasEnCasa = new List<Ficha>();
-        private List<Ficha> fichaJuego = new List<Ficha>();
-        private List<Ficha> fichaRecorridoFinal = new List<Ficha>();
-        private List<Ficha> fichaMeta = new List<Ficha>();
-        private List<BotonPersonalizado> ruta = new List<BotonPersonalizado>();
+        protected int id;
+        protected Color colorJugador;
+        protected List<Ficha> fichasEnCasa = new List<Ficha>();
+        protected List<Ficha> fichaJuego = new List<Ficha>();
+        protected List<Ficha> fichaRecorridoFinal = new List<Ficha>();
+        protected List<Ficha> fichaMeta = new List<Ficha>();
+        protected List<BotonPersonalizado> ruta = new List<BotonPersonalizado>();
 
-        public Jugador() { }
-
-        public Jugador(int id, List<Ficha> fichas, List<BotonPersonalizado> ruta) 
+        public Jugador(int id, List<Ficha> fichas, List<BotonPersonalizado> ruta)
         {
-            poderMover = false;
             this.id = id;
             fichasEnCasa = fichas;
             this.ruta = ruta;
@@ -30,66 +25,9 @@ namespace Ludo_Copia
             actualizarColorFicha();
         }
 
-        public int getnroDado() { return nroDado; }
-        public int setnroDado(int nro) { return nroDado = nro; }
-        public int getId() { return id; }
+        // Geters
         public Color getColor() { return colorJugador; }
         public bool getFichaJuego() { return fichaJuego.Count > 0; }
-
-        public void activarFichaJuego() // Activa las fichas en juego
-        {
-            if (fichaJuego != null)
-            {
-                foreach (Ficha f in fichaJuego)
-                {
-                    f.activarFicha();
-                }
-                // Activa fichas al final de recorrido
-            }
-        }
-
-        public void activarFichaRecorridoFinal(int dado)
-        {
-            foreach (Ficha f in fichaRecorridoFinal)
-            {
-                int pos = ruta.IndexOf(f.GetUbicacion());
-                if (pos + dado <= ruta.Count)
-                {
-                    f.activarFicha();
-                }
-            }
-        }
-
-        public void activarFichas() // Activa todas las fichas
-        {
-            activarFichaJuego();
-            if (fichasEnCasa != null)
-            {
-                foreach (Ficha f in fichasEnCasa)
-                {
-                    f.activarFicha();
-                }
-            }
-        }
-
-        public void desactivarFichas() // Desactiva las fichas
-        {
-            if (fichasEnCasa != null)
-            {
-                foreach (Ficha f in fichasEnCasa)
-                {
-                    f.desactivarFicha(); 
-                }
-            }
-
-            if (fichaJuego != null)
-            {
-                foreach (Ficha f in fichaJuego)
-                {
-                    f.desactivarFicha();
-                }
-            }
-        }
 
         public BotonPersonalizado posicionMover(BotonPersonalizado ubicacion, int desplazamiento)
         { // obtiene el boton al que se puede mover la ficha
@@ -129,6 +67,7 @@ namespace Ludo_Copia
         {
             fichaRecorridoFinal.Remove(f);
             fichaMeta.Add(f);
+            f.desactivarFicha();
         }
 
         public void ponerFichaRecorridoFinal(Ficha f)
@@ -146,9 +85,9 @@ namespace Ludo_Copia
                 {
                     ponerFichaRecorridoFinal(f);
                 }
-                
+
             }
-            
+
             if (pos == ruta.Count)
             {
                 ponerFichaMeta(f);
@@ -160,22 +99,16 @@ namespace Ludo_Copia
             return fichaMeta.Count == 4;
         }
 
-        //compruebo si el Color del BtnTurno del Tablero , coincida con el Color del Jugador
-        public Boolean comprobarMover(Button btnTurno) 
-        {
-            return btnTurno.BackColor == colorJugador;
-        }
-
         private Color generarColor()
         {
             Color color;
             switch (id)
             {
                 case 0: color = Color.Lime; break;
-                case 1: color = Color.Blue; break; 
-                case 2: color = Color.Red; break; 
+                case 1: color = Color.Blue; break;
+                case 2: color = Color.Red; break;
                 case 3: color = Color.Yellow; break;
-                default:color = Color.White; break;
+                default: color = Color.White; break;
             }
 
             return color;
@@ -188,6 +121,5 @@ namespace Ludo_Copia
                 f.setColor(this.colorJugador);
             }
         }
-
     }
 }

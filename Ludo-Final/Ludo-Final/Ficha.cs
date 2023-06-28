@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     internal class Ficha
     {
@@ -41,13 +41,6 @@ namespace Ludo_Copia
             enCasa = true;
         }
 
-        public void MoverFicha(BotonPersonalizado boton)
-        {
-            ponerFichaJuego(boton);
-            enMovimiento = true; // Se avisa que esta en movimiento
-            timer.Start(); // Inicializa la animacion
-        }
-
         public void ponerFichaJuego(BotonPersonalizado boton)
         { //Pone a la ficha en el punto de inicio para poder moverse
             enCasa = false;
@@ -76,13 +69,14 @@ namespace Ludo_Copia
             b_ficha.Size = new Size(30, 30);
         }
 
-        public bool Equals(PictureBox obj)
-        { // busca por posicion en la memoria si estan en la misma pos es el mismo objeto
-            if (obj == null) return false;
-            return obj == b_ficha;
+        public void MoverFicha(BotonPersonalizado boton)
+        {
+            ponerFichaJuego(boton);
+            enMovimiento = true; // Se avisa que esta en movimiento
+            timer.Start(); // Inicializa la animacion
         }
 
-        private void SetTimer()
+        private void SetTimer() // Crea el timer
         {
             // Create a timer with a two second interval.
             timer = new System.Timers.Timer(10);
@@ -92,26 +86,45 @@ namespace Ludo_Copia
             timer.Enabled = false;
         }
 
-        private void OnTimerEvent(object sender, EventArgs e)
+        private void OnTimerEvent(object sender, EventArgs e) // Movimiento de la ficha
         {
-            // Esta secuencia se ejecuta cada 20 milisegundo
-            if (this.b_ficha.Location.X != ubicacion.getPointCentral().X)
+            try
             {
-                if (this.b_ficha.Location.X < ubicacion.getPointCentral().X) this.b_ficha.Left++;
-                else this.b_ficha.Left--;
+                // Esta secuencia se ejecuta cada 20 milisegundos
+                if (this.b_ficha.Location.X != ubicacion.getPointCentral().X)
+                {
+                    if (this.b_ficha.Location.X < ubicacion.getPointCentral().X)
+                        this.b_ficha.Left++;
+                    else
+                        this.b_ficha.Left--;
+                }
+
+                if (b_ficha.Location.Y != ubicacion.getPointCentral().Y)
+                {
+                    if (this.b_ficha.Location.Y < ubicacion.getPointCentral().Y)
+                        this.b_ficha.Top++;
+                    else
+                        this.b_ficha.Top--;
+                }
+
+                if (this.b_ficha.Location.X == ubicacion.getPointCentral().X && this.b_ficha.Location.Y == ubicacion.getPointCentral().Y)
+                {
+                    enMovimiento = false;
+                    timer.Stop();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción específica
+                Console.WriteLine("Se produjo una excepción: " + ex.Message);
             }
 
-            if (b_ficha.Location.Y != ubicacion.getPointCentral().Y)
-            {
-                if (this.b_ficha.Location.Y < ubicacion.getPointCentral().Y) this.b_ficha.Top++;
-                else this.b_ficha.Top--;
-            }
+        }
 
-            if (this.b_ficha.Location.X == ubicacion.getPointCentral().X && this.b_ficha.Location.Y == ubicacion.getPointCentral().Y)
-            {
-                enMovimiento = false;
-                timer.Stop();
-            }
+        public bool Equals(PictureBox obj)
+        { // busca por posicion en la memoria si estan en la misma pos es el mismo objeto
+            if (obj == null) return false;
+            return obj == b_ficha;
         }
     }
 }

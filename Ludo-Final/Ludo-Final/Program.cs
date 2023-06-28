@@ -1,6 +1,5 @@
 
-
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     internal static class Program
     {
