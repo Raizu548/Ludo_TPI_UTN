@@ -41,13 +41,6 @@ namespace Ludo_Final
             enCasa = true;
         }
 
-        public void MoverFicha(BotonPersonalizado boton)
-        {
-            ponerFichaJuego(boton);
-            enMovimiento = true; // Se avisa que esta en movimiento
-            timer.Start(); // Inicializa la animacion
-        }
-
         public void ponerFichaJuego(BotonPersonalizado boton)
         { //Pone a la ficha en el punto de inicio para poder moverse
             enCasa = false;
@@ -76,13 +69,14 @@ namespace Ludo_Final
             b_ficha.Size = new Size(30, 30);
         }
 
-        public bool Equals(PictureBox obj)
-        { // busca por posicion en la memoria si estan en la misma pos es el mismo objeto
-            if (obj == null) return false;
-            return obj == b_ficha;
+        public void MoverFicha(BotonPersonalizado boton)
+        {
+            ponerFichaJuego(boton);
+            enMovimiento = true; // Se avisa que esta en movimiento
+            timer.Start(); // Inicializa la animacion
         }
 
-        private void SetTimer()
+        private void SetTimer() // Crea el timer
         {
             // Create a timer with a two second interval.
             timer = new System.Timers.Timer(10);
@@ -92,7 +86,7 @@ namespace Ludo_Final
             timer.Enabled = false;
         }
 
-        private void OnTimerEvent(object sender, EventArgs e)
+        private void OnTimerEvent(object sender, EventArgs e) // Movimiento de la ficha
         {
             try
             {
@@ -125,6 +119,12 @@ namespace Ludo_Final
                 Console.WriteLine("Se produjo una excepción: " + ex.Message);
             }
 
+        }
+
+        public bool Equals(PictureBox obj)
+        { // busca por posicion en la memoria si estan en la misma pos es el mismo objeto
+            if (obj == null) return false;
+            return obj == b_ficha;
         }
     }
 }

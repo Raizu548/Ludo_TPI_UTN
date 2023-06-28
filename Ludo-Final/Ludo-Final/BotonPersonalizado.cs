@@ -32,7 +32,6 @@ namespace Ludo_Final
         public Button GetBoton() { return boton; }
         public int GetId() { return id; }
         public Point getPointCentral() { return pointCentral; }
-        public Tipo GetTipo() { return tipo; }
         public bool esSeguro() { return tipo == Tipo.Seguro; }
         public int getCantFichas() { return listaFichas.Count; }
         public bool tieneFicha() { return listaFichas.Count > 0; }
@@ -57,6 +56,7 @@ namespace Ludo_Final
 
         private void cargarPuntos()
         {
+            // Carga los 4 puntos donde se puede posicionar la fichas
             Point punto = new Point(boton.Location.X, boton.Location.Y);
             listUbicacion.Add(punto);
             punto = new Point(boton.Location.X + 26, boton.Location.Y);
@@ -67,8 +67,8 @@ namespace Ludo_Final
             listUbicacion.Add(punto);
         }
 
-        public void agregarFicha(Ficha f)
-        {
+        public void agregarFicha(Ficha f) // Agrega una ficha al boton
+        { 
             if (listaFichas.Count == 0)
             {
                 listaFichas.Add(f);
@@ -83,7 +83,7 @@ namespace Ludo_Final
             }
         }
 
-        public void sacarFicha(Ficha f)
+        public void sacarFicha(Ficha f) // Saca la ficha del boton
         {
             if (listaFichas.Count > 1) f.agrandar(); // al sacar la ficha lo vuevlo a su tamaño normal
 
@@ -100,7 +100,7 @@ namespace Ludo_Final
             }
         }
 
-        public void logicaComer(Ficha f, Jugador jugador)
+        public void logicaComer(Ficha f, Jugador jugador) 
         {
             // Logica de comprobar si hay una ficha extra sino comer
             if (!esSeguro())
@@ -128,7 +128,7 @@ namespace Ludo_Final
 
         }
 
-        public void comprobarCome(Ficha f, Jugador jugador)
+        public void comprobarCome(Ficha f, Jugador jugador) // comprueba si se puede comer otra ficha
         {
             if (f.GetColor() != listaFichas[0].GetColor())
             {
@@ -145,7 +145,7 @@ namespace Ludo_Final
             }
         }
 
-        private void cambiarPosicion()
+        private void cambiarPosicion() // ordena las fichas
         {
             int i = 0;
             foreach (Ficha f in listaFichas)

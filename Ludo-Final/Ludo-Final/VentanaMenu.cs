@@ -21,7 +21,7 @@ namespace Ludo_Final
         private void button1_Click(object sender, EventArgs e)
         {
             TableroLudo ventanaTableroLudo = new TableroLudo(1, true);
-            ventanaTableroLudo.Show();
+            ventanaTableroLudo.ShowDialog();
         }
 
         private void button2_Click(object sender, EventArgs e)

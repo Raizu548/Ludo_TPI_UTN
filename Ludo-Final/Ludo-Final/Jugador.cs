@@ -26,10 +26,8 @@ namespace Ludo_Final
         }
 
         // Geters
-        public int getId() { return id; }
         public Color getColor() { return colorJugador; }
         public bool getFichaJuego() { return fichaJuego.Count > 0; }
-
 
         public BotonPersonalizado posicionMover(BotonPersonalizado ubicacion, int desplazamiento)
         { // obtiene el boton al que se puede mover la ficha
@@ -69,6 +67,7 @@ namespace Ludo_Final
         {
             fichaRecorridoFinal.Remove(f);
             fichaMeta.Add(f);
+            f.desactivarFicha();
         }
 
         public void ponerFichaRecorridoFinal(Ficha f)

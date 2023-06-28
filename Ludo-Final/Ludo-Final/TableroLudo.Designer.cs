@@ -1089,6 +1089,7 @@
             pb_fichaV1.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaV1.TabIndex = 81;
             pb_fichaV1.TabStop = false;
+            pb_fichaV1.Visible = false;
             // 
             // pb_fichaV2
             // 
@@ -1101,6 +1102,7 @@
             pb_fichaV2.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaV2.TabIndex = 82;
             pb_fichaV2.TabStop = false;
+            pb_fichaV2.Visible = false;
             // 
             // pb_fichaV3
             // 
@@ -1113,6 +1115,7 @@
             pb_fichaV3.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaV3.TabIndex = 83;
             pb_fichaV3.TabStop = false;
+            pb_fichaV3.Visible = false;
             // 
             // pb_fichaV4
             // 
@@ -1125,6 +1128,7 @@
             pb_fichaV4.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaV4.TabIndex = 84;
             pb_fichaV4.TabStop = false;
+            pb_fichaV4.Visible = false;
             // 
             // pb_fichaR1
             // 
@@ -1137,6 +1141,7 @@
             pb_fichaR1.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaR1.TabIndex = 85;
             pb_fichaR1.TabStop = false;
+            pb_fichaR1.Visible = false;
             // 
             // pb_fichaR2
             // 
@@ -1149,6 +1154,7 @@
             pb_fichaR2.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaR2.TabIndex = 86;
             pb_fichaR2.TabStop = false;
+            pb_fichaR2.Visible = false;
             // 
             // pb_fichaR3
             // 
@@ -1161,6 +1167,7 @@
             pb_fichaR3.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaR3.TabIndex = 87;
             pb_fichaR3.TabStop = false;
+            pb_fichaR3.Visible = false;
             // 
             // pb_fichaR4
             // 
@@ -1173,6 +1180,7 @@
             pb_fichaR4.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaR4.TabIndex = 88;
             pb_fichaR4.TabStop = false;
+            pb_fichaR4.Visible = false;
             // 
             // pb_fichaAz1
             // 
@@ -1185,6 +1193,7 @@
             pb_fichaAz1.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAz1.TabIndex = 89;
             pb_fichaAz1.TabStop = false;
+            pb_fichaAz1.Visible = false;
             // 
             // pb_fichaAz2
             // 
@@ -1197,6 +1206,7 @@
             pb_fichaAz2.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAz2.TabIndex = 90;
             pb_fichaAz2.TabStop = false;
+            pb_fichaAz2.Visible = false;
             // 
             // pb_fichaAz3
             // 
@@ -1209,6 +1219,7 @@
             pb_fichaAz3.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAz3.TabIndex = 91;
             pb_fichaAz3.TabStop = false;
+            pb_fichaAz3.Visible = false;
             // 
             // pb_fichaAz4
             // 
@@ -1221,6 +1232,7 @@
             pb_fichaAz4.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAz4.TabIndex = 92;
             pb_fichaAz4.TabStop = false;
+            pb_fichaAz4.Visible = false;
             // 
             // pb_fichaAm1
             // 
@@ -1233,6 +1245,7 @@
             pb_fichaAm1.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAm1.TabIndex = 93;
             pb_fichaAm1.TabStop = false;
+            pb_fichaAm1.Visible = false;
             // 
             // pb_fichaAm2
             // 
@@ -1245,6 +1258,7 @@
             pb_fichaAm2.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAm2.TabIndex = 94;
             pb_fichaAm2.TabStop = false;
+            pb_fichaAm2.Visible = false;
             // 
             // pb_fichaAm3
             // 
@@ -1257,6 +1271,7 @@
             pb_fichaAm3.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAm3.TabIndex = 95;
             pb_fichaAm3.TabStop = false;
+            pb_fichaAm3.Visible = false;
             // 
             // pb_fichaAm4
             // 
@@ -1269,6 +1284,7 @@
             pb_fichaAm4.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_fichaAm4.TabIndex = 96;
             pb_fichaAm4.TabStop = false;
+            pb_fichaAm4.Visible = false;
             // 
             // timerMovimiento
             // 

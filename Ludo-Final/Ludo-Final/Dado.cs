@@ -12,6 +12,7 @@ namespace Ludo_Final
 
         public Dado()
         {
+            // Carga dinamica de las imagenes de los dados
             String cara1 = Path.Combine(Application.StartupPath, "..", "..", "..", "..", "..", "recursos", "img", "cara1.png");
             String cara2 = Path.Combine(Application.StartupPath, "..", "..", "..", "..", "..", "recursos", "img", "cara2.png");
             String cara3 = Path.Combine(Application.StartupPath, "..", "..", "..", "..", "..", "recursos", "img", "cara3.png");

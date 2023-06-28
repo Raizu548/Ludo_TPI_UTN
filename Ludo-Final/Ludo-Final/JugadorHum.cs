@@ -49,17 +49,18 @@ namespace Ludo_Final
 
         public void desactivarFichas() // Desactiva las fichas
         {
-            if (fichasEnCasa != null)
-            {
-                foreach (Ficha f in fichasEnCasa)
-                {
-                    f.desactivarFicha(); 
-                }
-            }
+            desactivarFichasGenerico(fichasEnCasa);
 
-            if (fichaJuego != null)
+            desactivarFichasGenerico(fichaJuego);
+
+            desactivarFichasGenerico(fichaRecorridoFinal);
+        }
+
+        private void desactivarFichasGenerico(List<Ficha> lista)
+        {
+            if (lista != null)
             {
-                foreach (Ficha f in fichaJuego)
+                foreach (Ficha f in lista)
                 {
                     f.desactivarFicha();
                 }
