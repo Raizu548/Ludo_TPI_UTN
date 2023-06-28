@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     public partial class TableroLudo : Form
     {
@@ -27,8 +27,6 @@ namespace Ludo_Copia
         BotonPersonalizado botonActivado;
         int turnoJugador = 0;
         int cantMovimiento;
-        bool terminoTurno = false;
-        bool tiroDado = false;
         bool seActivoFichas = false;
 
         // Dado????
@@ -39,16 +37,16 @@ namespace Ludo_Copia
         int indiceJugador = 0;
         bool timerSeDetuvo = false;
         bool seOrdeno = false;
-        List<Jugador> ordenTurno = new List<Jugador>();
+
 
         public TableroLudo(int canJugador, bool iaActiva)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cargarBotones();
+            this.iaActiva = iaActiva;
             //btn_turnos.BackColor = Color.White;
             cargarJugadores(canJugador);
-            this.iaActiva = iaActiva;
             jugadorActual = listaJugadores[0];
 
             this.cantJugadores = canJugador;
@@ -70,7 +68,7 @@ namespace Ludo_Copia
                 ruta.Add(listaBotones[inicio]);
                 inicio++;
 
-            } while (inicio != final +1);
+            } while (inicio != final + 1);
 
             // Carga las 6 baldosas finales antes de llegar a la meta, incluido la meta
             for (int i = 0; i < 6; i++)
@@ -98,11 +96,50 @@ namespace Ludo_Copia
                 pictureBoxDado.Load(dado.animacion(dadoSeleccionado));
 
                 contadorDado = 0;
-                tiroDado = true;
                 timerSeDetuvo = true;
 
                 // Activa las fichas que se pueden mover del jugador actual
-                activarFichas();
+                if (jugadorActual is JugadorHum)
+                {
+                    activarFichas();
+                }
+                else
+                { // juega la IA
+                    JugadorIA jugadorIA = (JugadorIA)jugadorActual;
+                    fichaSeleccionada = jugadorIA.seleccionarFicha(dadoSeleccionado);
+
+                    if (fichaSeleccionada != null)
+                    {
+                        botonActivado = jugadorActual.posicionMover(fichaSeleccionada.GetUbicacion(), dadoSeleccionado);
+
+                        if (!jugadorActual.pasaFinal(dadoSeleccionado, fichaSeleccionada.GetUbicacion()))
+                        {
+
+                            if (fichaSeleccionada.getEnCasa())
+                            { // Si la ficha no esta en juego
+
+                                BotonPersonalizado ubicacion = jugadorActual.posicionMover(fichaSeleccionada.GetUbicacion(), 1);
+                                fichaSeleccionada.MoverFicha(ubicacion);
+                                jugadorActual.ponerFichaJuego(fichaSeleccionada);
+                                timerMovimiento.Start();
+
+                            }
+                            else
+                            { // Si la ficha ya esta en juego
+                              // Saco ficha de la posicion actual para moverla
+                                fichaSeleccionada.GetUbicacion().sacarFicha(fichaSeleccionada);
+                                cantMovimiento = dadoSeleccionado;
+                                timerMovimiento.Start();
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        terminarTurno();
+                    }
+                }
+
             }
 
             contadorDado++;
@@ -112,64 +149,20 @@ namespace Ludo_Copia
         {
             b_lanzar_dado.Enabled = false;
             timerDado.Start();
-            /*
-            //verifico si se ordeno
-            if (seOrdeno != true)
-            {
-                if (contadorTurno < ordenTurno.Count)
-                {
-                    timerDado.Start();
-                    b_lanzar_dado.Enabled = false;
-                    ordenTurno[contadorTurno].setnroDado(dadoSeleccionado);
-                    contadorTurno++;
-
-                }
-
-                if (contadorTurno == ordenTurno.Count)
-                {
-                    ordenarTurnos();
-                }
-
-            }
-
-            //cambio de color dependiendo del turno del juagador
-            if (timerSeDetuvo)
-            {
-                if (indiceJugador > ordenTurno.Count - 1)
-                {
-                    indiceJugador = 0;
-                }
-                cambiarColorBtnTurno(indiceJugador);
-                indiceJugador++;
-                timerSeDetuvo = false;
-            }
-            timerDado.Start();
-            b_lanzar_dado.Enabled = false;
-            */
-
         }
-
-        private void llenarLista()
-        {
-            /*
-            ordenTurno.Add(new Jugador(1));
-            ordenTurno.Add(new Jugador(2));
-            ordenTurno.Add(new Jugador(3));
-            ordenTurno.Add(new Jugador(4));
-            */
-        } // Metodo de Luciano
 
         private void activarFichas()
         {
+            JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
             // Activa las fichas que se pueden mover
             if (dadoSeleccionado == 1 || dadoSeleccionado == 6)
             {
-                jugadorActual.activarFichas();
+                jugadorHumano.activarFichas();
                 Debug.WriteLine("1 o 6");
             }
             else if (jugadorActual.getFichaJuego())
             {
-                jugadorActual.activarFichaJuego();
+                jugadorHumano.activarFichaJuego();
             }
             else
             {
@@ -180,14 +173,28 @@ namespace Ludo_Copia
         private void terminarTurno()
         {
             // Procedimientos que se lleva a cabo al finalizar el turno
-            terminoTurno = true;
-            jugadorActual.desactivarFichas();
+
+            if (jugadorActual is JugadorHum)
+            {
+                JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
+                jugadorHumano.desactivarFichas();
+            }
+
             pasarTurno();
             MessageBox.Show("Sigue jugador " + jugadorActual.getColor(), "Fin del turno");
             btn_turnos.BackColor = jugadorActual.getColor();
-            b_lanzar_dado.Enabled = true; // activa el boton
-            jugadorActual.desactivarFichas(); // desactiva las fichas para que no se puedan seleccionar
+
             if (botonActivado != null) botonActivado.desactivarBoton(); // desactiva el boton de posicion
+
+            if (jugadorActual is JugadorIA)
+            {
+                b_lanzar_dado.Enabled = false;
+                jugarIA();
+            }
+            else
+            {
+                b_lanzar_dado.Enabled = true; // activa el boton
+            }
         }
 
         private void pasarTurno()
@@ -318,7 +325,6 @@ namespace Ludo_Copia
         {
             // Todas las casillas pueden realizar este evento
             Button clickedButton = (Button)sender;
-            BotonPersonalizado btn = listaBotones.Find(boton => boton.GetBoton() == clickedButton);
             // seleciono la casilla y se mueve la ficha
             if (!jugadorActual.pasaFinal(dadoSeleccionado, fichaSeleccionada.GetUbicacion()))
             {
@@ -339,11 +345,9 @@ namespace Ludo_Copia
                     cantMovimiento = dadoSeleccionado;
                     timerMovimiento.Start();
                 }
-                tiroDado = false;
 
             }
 
-            
         }
 
         private void Pbox_Click(object sender, EventArgs e)
@@ -361,7 +365,7 @@ namespace Ludo_Copia
                     botonActivado = jugadorActual.posicionMover(fichaSeleccionada.GetUbicacion(), dadoSeleccionado);
                     botonActivado.activarBoton();
                 }
-                    
+
             }
 
         }
@@ -369,21 +373,33 @@ namespace Ludo_Copia
         private void cargarJugadores(int cant)
         {
             // Carga los jugadores 
-            if (cant >= 1) { cargarDatos(0, 4, 0, 50, 52, 0); } // Verde 50, 52, 0
-            if (cant >= 2) { cargarDatos(4, 8, 26, 24, 64, 1); } // Azul 24, 64, 1
-            if (cant >= 3) { cargarDatos(8, 12, 13, 11, 58, 2); } // Rojo 11, 58, 2
-            if (cant >= 4) { cargarDatos(12, 16, 39, 37, 70, 3); } // Amarillo 37, 70, 3
-            label2.Text = listaJugadores.Count.ToString() + " - " + cant;
+            if (cant >= 1) { cargarHumano(0, 4, 0, 50, 52, 0); } // Verde 50, 52, 0
+            if (cant >= 2) { cargarHumano(4, 8, 26, 24, 64, 1); } // Azul 24, 64, 1
+            if (cant >= 3) { cargarHumano(8, 12, 13, 11, 58, 2); } // Rojo 11, 58, 2
+            if (cant >= 4) { cargarHumano(12, 16, 39, 37, 70, 3); } // Amarillo 37, 70, 3
+
+            if (iaActiva) cargarIA(4, 8, 26, 24, 64, 1);
         }
 
-        private void cargarDatos(int inFicha, int finFicha, int inRuta, int finRuta, int extRuta, int id)
-        { // Carga todos los datos de los jugadores
-            List<Ficha> Fichas = new List<Ficha>();
+        private void cargarIA(int inFicha, int finFicha, int inRuta, int finRuta, int extRuta, int id)
+        {
+            listaJugadores.Add(new JugadorIA(id, cargarFicha(inFicha, finFicha), cargarRuta(inRuta, finRuta, extRuta)));
+        }
+
+        private void cargarHumano(int inFicha, int finFicha, int inRuta, int finRuta, int extRuta, int id)
+        {
+            listaJugadores.Add(new JugadorHum(id, cargarFicha(inFicha, finFicha), cargarRuta(inRuta, finRuta, extRuta)));
+        }
+
+        private List<Ficha> cargarFicha(int inFicha, int finFicha)
+        {
+            List<Ficha> fichas = new List<Ficha>();
             for (int i = inFicha; i < finFicha; i++)
             {
-                Fichas.Add(listaFichas[i]);
+                fichas.Add(listaFichas[i]);
             }
-            listaJugadores.Add(new Jugador(id, Fichas, cargarRuta(inRuta, finRuta, extRuta)));
+
+            return fichas;
         }
 
         private void timerMovimiento_Tick(object sender, EventArgs e)
@@ -408,6 +424,12 @@ namespace Ludo_Copia
 
                 terminarTurno();
             }
+        }
+
+        private void jugarIA()
+        {
+            b_lanzar_dado.Enabled = false;
+            timerDado.Start();
         }
     }
 }

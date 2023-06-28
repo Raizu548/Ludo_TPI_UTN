@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     public partial class VentanaMenu : Form
     {
@@ -20,7 +20,7 @@ namespace Ludo_Copia
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TableroLudo ventanaTableroLudo = new TableroLudo(2, true);
+            TableroLudo ventanaTableroLudo = new TableroLudo(1, true);
             ventanaTableroLudo.Show();
         }
 

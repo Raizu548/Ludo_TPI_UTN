@@ -1,4 +1,4 @@
-﻿namespace Ludo_Copia
+﻿namespace Ludo_Final
 {
     partial class VentanaMenu
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     internal class Ficha
     {
@@ -94,24 +94,37 @@ namespace Ludo_Copia
 
         private void OnTimerEvent(object sender, EventArgs e)
         {
-            // Esta secuencia se ejecuta cada 20 milisegundo
-            if (this.b_ficha.Location.X != ubicacion.getPointCentral().X)
+            try
             {
-                if (this.b_ficha.Location.X < ubicacion.getPointCentral().X) this.b_ficha.Left++;
-                else this.b_ficha.Left--;
+                // Esta secuencia se ejecuta cada 20 milisegundos
+                if (this.b_ficha.Location.X != ubicacion.getPointCentral().X)
+                {
+                    if (this.b_ficha.Location.X < ubicacion.getPointCentral().X)
+                        this.b_ficha.Left++;
+                    else
+                        this.b_ficha.Left--;
+                }
+
+                if (b_ficha.Location.Y != ubicacion.getPointCentral().Y)
+                {
+                    if (this.b_ficha.Location.Y < ubicacion.getPointCentral().Y)
+                        this.b_ficha.Top++;
+                    else
+                        this.b_ficha.Top--;
+                }
+
+                if (this.b_ficha.Location.X == ubicacion.getPointCentral().X && this.b_ficha.Location.Y == ubicacion.getPointCentral().Y)
+                {
+                    enMovimiento = false;
+                    timer.Stop();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción específica
+                Console.WriteLine("Se produjo una excepción: " + ex.Message);
             }
 
-            if (b_ficha.Location.Y != ubicacion.getPointCentral().Y)
-            {
-                if (this.b_ficha.Location.Y < ubicacion.getPointCentral().Y) this.b_ficha.Top++;
-                else this.b_ficha.Top--;
-            }
-
-            if (this.b_ficha.Location.X == ubicacion.getPointCentral().X && this.b_ficha.Location.Y == ubicacion.getPointCentral().Y)
-            {
-                enMovimiento = false;
-                timer.Stop();
-            }
         }
     }
 }

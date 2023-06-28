@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ludo_Copia
+namespace Ludo_Final
 {
     internal class Dado
     {

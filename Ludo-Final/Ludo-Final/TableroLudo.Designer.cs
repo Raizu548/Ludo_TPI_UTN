@@ -1,4 +1,4 @@
-﻿namespace Ludo_Copia
+﻿namespace Ludo_Final
 {
     partial class TableroLudo
     {
@@ -129,7 +129,6 @@
             pb_fichaAm3 = new PictureBox();
             pb_fichaAm4 = new PictureBox();
             timerMovimiento = new System.Windows.Forms.Timer(components);
-            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDado).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pb_fichaV1).BeginInit();
@@ -1275,21 +1274,11 @@
             // 
             timerMovimiento.Tick += timerMovimiento_Tick;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(758, 557);
-            label2.Name = "label2";
-            label2.Size = new Size(38, 15);
-            label2.TabIndex = 97;
-            label2.Text = "label2";
-            // 
             // TableroLudo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(945, 694);
-            Controls.Add(label2);
             Controls.Add(pb_fichaAm4);
             Controls.Add(pb_fichaAm3);
             Controls.Add(pb_fichaAm2);
@@ -1512,6 +1501,5 @@
         private PictureBox pb_fichaAm3;
         private PictureBox pb_fichaAm4;
         private System.Windows.Forms.Timer timerMovimiento;
-        private Label label2;
     }
 }
