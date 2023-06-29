@@ -21,6 +21,7 @@ namespace Ludo_Final
                 }
                 // Activa fichas al final de recorrido
             }
+
         }
 
         public void activarFichaRecorridoFinal(int dado)
@@ -28,7 +29,7 @@ namespace Ludo_Final
             foreach (Ficha f in fichaRecorridoFinal)
             {
                 int pos = ruta.IndexOf(f.GetUbicacion());
-                if (pos + dado <= ruta.Count)
+                if (pos + dado <= ruta.Count-1)
                 {
                     f.activarFicha();
                 }

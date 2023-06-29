@@ -65,7 +65,7 @@ namespace Ludo_Final
             foreach (Ficha ficha in lista)
             {
                 int posFicha = ruta.IndexOf(ficha.GetUbicacion());
-                if (posFicha >= posMayor && (posFicha + dado) <= ruta.Count)
+                if (posFicha >= posMayor && (posFicha + dado) < ruta.Count)
                 {
                     posMayor = posFicha;
                     fichaSeleccionada = ficha;

@@ -226,6 +226,10 @@ namespace Ludo_Final
             Button clickedButton = (Button)sender;
             // seleciono la casilla y se mueve la ficha
             moverFicha();
+            JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
+            jugadorHumano.desactivarFichas();
+            botonActivado.desactivarBoton();
+            
 
         }
 
@@ -284,7 +288,7 @@ namespace Ludo_Final
             else if (cantMovimiento == 0 && !fichaSeleccionada.GetEnMovimiento())
             {
                 // Comprueba si puede comer
-                botonActivado.logicaComer(fichaSeleccionada, jugadorActual);
+                botonActivado.logicaComer(fichaSeleccionada, jugadorActual, listaJugadores);
                 timerMovimiento.Stop();
 
                 jugadorActual.entroAlRecorrido(fichaSeleccionada);
@@ -362,30 +366,41 @@ namespace Ludo_Final
         {
             JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
             // Activa las fichas que se pueden mover
-            if (dadoSeleccionado == 1 || dadoSeleccionado == 6)
+
+            if (jugadorActual.puedeMover(dadoSeleccionado))
             {
-                jugadorHumano.activarFichas();
-                Debug.WriteLine("1 o 6");
-            }
-            else if (jugadorActual.getFichaJuego())
-            {
-                jugadorHumano.activarFichaJuego();
+                if (dadoSeleccionado == 1 || dadoSeleccionado == 6)
+                {
+                    jugadorHumano.activarFichas();
+
+                    if (jugadorActual.getFichaRecorridoFinal())
+                    {
+                        jugadorHumano.activarFichaRecorridoFinal(dadoSeleccionado);
+                    }
+
+                    Debug.WriteLine("1 o 6");
+                }
+                else if (jugadorActual.getFichaJuego() || jugadorActual.getFichaRecorridoFinal())
+                {
+                    jugadorHumano.activarFichaJuego();
+                    jugadorHumano.activarFichaRecorridoFinal(dadoSeleccionado);
+                }
+                else
+                {
+                    terminarTurno();
+                }
             }
             else
             {
                 terminarTurno();
             }
+
+
         }
 
         private void terminarTurno() // <- Procedimiento al terminar el turno
         {
             // Procedimientos que se lleva a cabo al finalizar el turno
-
-            if (jugadorActual is JugadorHum)
-            {
-                JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
-                jugadorHumano.desactivarFichas();
-            }
 
             pasarTurno();
             MessageBox.Show("Sigue jugador " + jugadorActual.getColor(), "Fin del turno");
@@ -418,6 +433,6 @@ namespace Ludo_Final
                 jugadorActual = listaJugadores[0];
             }
         }
-  
+
     }
 }

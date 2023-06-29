@@ -100,7 +100,7 @@ namespace Ludo_Final
             }
         }
 
-        public void logicaComer(Ficha f, Jugador jugador) 
+        public void logicaComer(Ficha f, Jugador jugador, List<Jugador> jugadores) 
         {
             // Logica de comprobar si hay una ficha extra sino comer
             if (!esSeguro())
@@ -109,7 +109,7 @@ namespace Ludo_Final
                 {
                     if (getCantFichas() == 1)
                     { // si ya hay una ficha comprueba si puede comer
-                        comprobarCome(f, jugador);
+                        comprobarCome(f, jugador, jugadores);
                     }
                     else
                     { // si no hay una ficha o hay mas de 2 agrega la ficha nueva
@@ -128,14 +128,17 @@ namespace Ludo_Final
 
         }
 
-        public void comprobarCome(Ficha f, Jugador jugador) // comprueba si se puede comer otra ficha
+        public void comprobarCome(Ficha f, Jugador jugador, List<Jugador> jugadores) // comprueba si se puede comer otra ficha
         {
             if (f.GetColor() != listaFichas[0].GetColor())
             {
                 Ficha fsale = listaFichas[0];
                 listaFichas.Remove(fsale);
                 fsale.volverACasa();
-                jugador.ponerFichaCasa(fsale);
+
+                Jugador jugadorEnemigo = jugadores.Find(x => x.getColor() == fsale.GetColor());
+                jugadorEnemigo.ponerFichaCasa(fsale);
+
                 listaFichas.Add(f);
             }
             else
