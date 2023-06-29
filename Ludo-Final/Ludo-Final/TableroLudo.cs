@@ -226,6 +226,10 @@ namespace Ludo_Final
             Button clickedButton = (Button)sender;
             // seleciono la casilla y se mueve la ficha
             moverFicha();
+            JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
+            jugadorHumano.desactivarFichas();
+            botonActivado.desactivarBoton();
+            
 
         }
 
@@ -397,12 +401,6 @@ namespace Ludo_Final
         private void terminarTurno() // <- Procedimiento al terminar el turno
         {
             // Procedimientos que se lleva a cabo al finalizar el turno
-
-            if (jugadorActual is JugadorHum)
-            {
-                JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
-                jugadorHumano.desactivarFichas();
-            }
 
             pasarTurno();
             MessageBox.Show("Sigue jugador " + jugadorActual.getColor(), "Fin del turno");
