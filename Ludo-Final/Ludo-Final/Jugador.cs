@@ -29,6 +29,28 @@ namespace Ludo_Final
         public Color getColor() { return colorJugador; }
         public bool getFichaJuego() { return fichaJuego.Count > 0; }
 
+        public bool getFichaRecorridoFinal() { return fichaRecorridoFinal.Count > 0; }
+
+        public bool puedeMover(int dado)
+        {
+
+            if ((fichasEnCasa.Count > 0) && (dado == 1 || dado == 6)) return true; 
+            if (fichaJuego.Count > 0)return true;
+            if (fichaRecorridoFinal.Count > 0)
+            {
+                foreach (Ficha f in fichaRecorridoFinal) // comprueba si alguna ficha en recorrido se puede mover
+                {
+                    if (!pasaFinal(dado, f.GetUbicacion()))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+
+            return false;
+        }
+
         public BotonPersonalizado posicionMover(BotonPersonalizado ubicacion, int desplazamiento)
         { // obtiene el boton al que se puede mover la ficha
 
@@ -38,7 +60,7 @@ namespace Ludo_Final
                 int posBoton = ruta.IndexOf(ubicacion);
                 int nuevaPosicion = posBoton + desplazamiento;
 
-                if (nuevaPosicion <= ruta.Count) return ruta[nuevaPosicion];
+                if (nuevaPosicion < ruta.Count) return ruta[nuevaPosicion];
                 return null;
             }
 
@@ -48,7 +70,7 @@ namespace Ludo_Final
         {
             int posBoton = ruta.IndexOf(ubicacion);
             int nuevaPosicion = posBoton + desplazamiento;
-            return nuevaPosicion > ruta.Count;
+            return nuevaPosicion > ruta.Count-1;
         }
 
         public void ponerFichaJuego(Ficha f)
@@ -88,7 +110,7 @@ namespace Ludo_Final
 
             }
 
-            if (pos == ruta.Count)
+            if (pos == ruta.Count-1)
             {
                 ponerFichaMeta(f);
             }
