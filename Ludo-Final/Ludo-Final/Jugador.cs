@@ -10,6 +10,7 @@ namespace Ludo_Final
     {
         protected int id;
         protected Color colorJugador;
+        protected String colorTexto;
         protected List<Ficha> fichasEnCasa = new List<Ficha>();
         protected List<Ficha> fichaJuego = new List<Ficha>();
         protected List<Ficha> fichaRecorridoFinal = new List<Ficha>();
@@ -28,6 +29,7 @@ namespace Ludo_Final
         // Geters
         public Color getColor() { return colorJugador; }
         public bool getFichaJuego() { return fichaJuego.Count > 0; }
+        public String getColorTexto() { return colorTexto; }
 
         public bool getFichaRecorridoFinal() { return fichaRecorridoFinal.Count > 0; }
 
@@ -126,10 +128,11 @@ namespace Ludo_Final
             Color color;
             switch (id)
             {
-                case 0: color = Color.Lime; break;
-                case 1: color = Color.Blue; break;
-                case 2: color = Color.Red; break;
-                case 3: color = Color.Yellow; break;
+                case 0: 
+                    color = Color.Lime; colorTexto = "Verde"; break;
+                case 1: color = Color.Blue; colorTexto = "Azul"; break;
+                case 2: color = Color.Red; colorTexto = "Rojo"; break;
+                case 3: color = Color.Yellow; colorTexto = "Amarillo"; break;
                 default: color = Color.White; break;
             }
 
