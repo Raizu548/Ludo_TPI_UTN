@@ -16,28 +16,6 @@ namespace Ludo_Final
         // selecionar ficha
         // mover ficha seleccionada
 
-        /*public Ficha seleccionarFicha(int dado)
-        {
-            if (dado == 1 || dado == 6) // si el resultado es 1 o 6 priorizo sacar en caso de que haya
-            {
-                if (fichasEnCasa.Count > 0)
-                { // saco ficha de la casa
-                    return fichasEnCasa[0];
-                }
-                else
-                {
-                    return devolverFicha(dado);
-                }
-            }
-            else if (fichaJuego.Count > 0 || fichaRecorridoFinal.Count > 0)
-            {
-                return devolverFicha(dado);
-            }
-
-            return null;
-        }
-        */
-
         public Ficha seleccionarFicha(int dado)
         {
             if (dado == 1 || dado == 6)
