@@ -229,7 +229,7 @@ namespace Ludo_Final
             JugadorHum jugadorHumano = (JugadorHum)jugadorActual;
             jugadorHumano.desactivarFichas();
             botonActivado.desactivarBoton();
-            
+
 
         }
 
@@ -403,7 +403,7 @@ namespace Ludo_Final
             // Procedimientos que se lleva a cabo al finalizar el turno
 
             pasarTurno();
-            MessageBox.Show("Sigue jugador " + jugadorActual.getColor(), "Fin del turno");
+            MessageBox.Show("Sigue jugador " + jugadorActual.getColorTexto(), "Fin del turno");
             btn_turnos.BackColor = jugadorActual.getColor();
 
             if (botonActivado != null) botonActivado.desactivarBoton(); // desactiva el boton de posicion
