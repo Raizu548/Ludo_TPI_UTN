@@ -16,7 +16,7 @@ namespace Ludo_Final
         // selecionar ficha
         // mover ficha seleccionada
 
-        public Ficha seleccionarFicha(int dado)
+        /*public Ficha seleccionarFicha(int dado)
         {
             if (dado == 1 || dado == 6) // si el resultado es 1 o 6 priorizo sacar en caso de que haya
             {
@@ -28,6 +28,42 @@ namespace Ludo_Final
                 {
                     return devolverFicha(dado);
                 }
+            }
+            else if (fichaJuego.Count > 0 || fichaRecorridoFinal.Count > 0)
+            {
+                return devolverFicha(dado);
+            }
+
+            return null;
+        }
+        */
+
+        public Ficha seleccionarFicha(int dado)
+        {
+            if (dado == 1 || dado == 6)
+            {
+                if (fichasEnCasa.Count > 0)
+                {
+                    BotonPersonalizado b = ruta.First(); // el inicio
+                    if (b.tieneFicha())
+                    {
+                        Random r = new Random();
+                        int result = r.Next(100);
+                        if (result > 70) // muevo ficha en el inicio
+                        {
+                            Ficha f = fichaJuego.Find(x => x.GetUbicacion() == b);
+                            return f;
+                        }
+
+                    }
+
+                    return fichasEnCasa[0];
+                }
+                else
+                {
+                    return devolverFicha(dado);
+                }
+                
             }
             else if (fichaJuego.Count > 0 || fichaRecorridoFinal.Count > 0)
             {
@@ -53,6 +89,24 @@ namespace Ludo_Final
             }
             else
             { // ficha que esta en juego 
+
+                foreach(Ficha f in fichaJuego)
+                {
+                    if (puedeComer(f, dado))
+                    {
+                        return f;
+                    }
+                }
+
+
+                Random r = new Random();
+                int resultado = r.Next(100);
+                if (resultado > 80) 
+                {
+                    resultado = r.Next(fichaJuego.Count);
+                    return fichaJuego[resultado];
+                }
+
                 return fichaMasCercana(fichaJuego, dado);
             }
         }
@@ -74,6 +128,23 @@ namespace Ludo_Final
 
             return fichaSeleccionada;
             
+        }
+
+        private bool puedeComer(Ficha ficha, int dado)
+        {
+            int posMover = ruta.IndexOf(ficha.GetUbicacion()) + dado;
+            BotonPersonalizado nuevaPos = ruta[posMover];
+
+            if (nuevaPos.getCantFichas() == 1)
+            {
+                Ficha f = fichaJuego.Find(x => x.GetUbicacion() == nuevaPos);
+
+                if (f.GetColor() != ficha.GetColor())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }
