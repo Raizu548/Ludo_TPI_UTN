@@ -10,4 +10,7 @@ Las funcionalidades principales del programa son las siguientes:
 - Se puede jugar contra una IA si juegas solo.
 - Puedes comer una ficha enemiga si esta en la misma casilla.
 
-  
+# Capturas
+<img src="https://github.com/Raizu548/Ludo_TPI_UTN/blob/master/Ludo-Final/recursos/capturas/menu.PNG">
+
+<img src="https://github.com/Raizu548/Ludo_TPI_UTN/blob/master/Ludo-Final/recursos/capturas/juego.PNG">
